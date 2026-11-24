@@ -135,7 +135,7 @@ flowchart LR
 ### Day 1 · Model comparison
 
 ![Date](https://img.shields.io/badge/date-YYYY--MM--DD-1E3A5F)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/USERNAME/REPO/blob/main/notebooks/01_baseline_boosting.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/Daily_Submission/Day0%2B1.ipynb)
 
 > **Daily question**
 > Which model did you select initially, and what is the strongest result supporting your choice?
@@ -167,7 +167,7 @@ Random stratified split: 8,000 development rows (6,000 `inner_fit` + 2,000 `inne
 ### Day 2 · Honest validation
 
 ![Date](https://img.shields.io/badge/date-YYYY--MM--DD-1E3A5F)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/USERNAME/REPO/blob/main/notebooks/02_validation_tuning.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/Daily_Submission/Day0%2B1%2B2.ipynb)
 
 > **Daily question**
 > *Paste the Day 2 question here.*
@@ -202,8 +202,8 @@ Random stratified split: 8,000 development rows (6,000 `inner_fit` + 2,000 `inne
 ### Day 3 · Cost and threshold
 
 ![Date](https://img.shields.io/badge/date-YYYY--MM--DD-1E3A5F)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/USERNAME/REPO/blob/main/notebooks/03_cost_sensitive_decision.ipynb)
-
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]
+(https://github.com/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/Daily_Submission/Day0%2B1%2B2%2B3.ipynb)
 > **Daily question**
 > *Paste the Day 3 question here.*
 
@@ -234,7 +234,8 @@ Weighted strategy, declared before comparison. 5,039 out-of-fold rows. $\text{Lo
 ### Day 4 · Explain and calibrate
 
 ![Date](https://img.shields.io/badge/date-YYYY--MM--DD-1E3A5F)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/USERNAME/REPO/blob/main/notebooks/04_explain_calibrate.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]
+(https://github.com/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/Daily_Submission/Day0%2B1%2B2%2B3%2B4.ipynb)
 
 > **Daily question**
 > *Paste the Day 4 question here.*
@@ -274,7 +275,8 @@ LightGBM with time-ordered roles: fit 2,516 · calibration 584 · policy 589 · 
 ### Day 5 · Final model
 
 ![Date](https://img.shields.io/badge/date-YYYY--MM--DD-1E3A5F)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/USERNAME/REPO/blob/main/notebooks/05_final_model.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]
+(https://github.com/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/Daily_Submission/Day0%2B1%2B2%2B3%2B4%2B5.ipynb)
 
 > **Daily question**
 > *Paste the Day 5 question here.*
