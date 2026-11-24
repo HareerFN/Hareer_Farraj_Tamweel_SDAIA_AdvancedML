@@ -1,0 +1,110 @@
+{
+  "source": "Day 5 project bundle",
+  "python_checks": {
+    "rows": 2500,
+    "max_abs_probability_diff": 3.3306690738754696e-16,
+    "flagged": 300,
+    "eligible": 330,
+    "capacity": 300,
+    "decisions_match": true,
+    "model_sha256_matches_manifest": true
+  },
+  "files": [
+    {
+      "path": "artifacts/final_model/model.json",
+      "bytes": 15049,
+      "sha256": "5682e136c19e38e6bc2e9ce83cde3c13ff2d8018824f0c03c516dc2c3124dac0",
+      "used_by": "Scoring: medians, mean, scale, coef, intercept, sigmoid calibration"
+    },
+    {
+      "path": "artifacts/final_model/model_manifest.json",
+      "bytes": 86,
+      "sha256": "c31a20a9fb1299a8545a2e7011a16a56d8c9638a82de82ab02f639639e63d1ee",
+      "used_by": "Integrity: expected sha256 of model.json"
+    },
+    {
+      "path": "artifacts/final_policy.json",
+      "bytes": 841,
+      "sha256": "8c7b655a5d7ebdf395c41ae93dccc05358f31d380a757a3317798b19d0f0886c",
+      "used_by": "Decision: calibrated threshold, 12% capacity, batch audit"
+    },
+    {
+      "path": "artifacts/final_metrics.json",
+      "bytes": 2637,
+      "sha256": "a425284c33fec37a96e28418dd9185be8dc9666fead987e1d760f1af789a6d70",
+      "used_by": "Evidence: gate decision, OOF operating point, calibration diagnostics"
+    },
+    {
+      "path": "data/data_contract.json",
+      "bytes": 11257,
+      "sha256": "3b2d60c52452cb1cc43ea105992211746e5da44cdb2e5ed73b04bbce52dd5d21",
+      "used_by": "Applicant form: features, ranges, nullable fields, leakage fields"
+    },
+    {
+      "path": "data/tamweel_challenge.csv",
+      "bytes": 294266,
+      "sha256": "ea0a8a8c23714b0b4c7ec350b6dbdc142fe939df72ef3c60c2acfc5397b15103",
+      "used_by": "Lender desk: the 2,500-request batch"
+    },
+    {
+      "path": "submission/submission.csv",
+      "bytes": 79994,
+      "sha256": "88050f5982bac92d0f3ab3ea7d3ede1eae648f9a28fa721ec8c1fbeda67568fe",
+      "used_by": "Integrity: probabilities and decisions the site must reproduce"
+    },
+    {
+      "path": "artifacts/ensemble_comparison.csv",
+      "bytes": 749,
+      "sha256": "44e147dcf25c23902261d6f983b1c7ab11f04fdb3d9fffa39a94a652f4cb8491",
+      "used_by": "Evidence: candidate comparison"
+    },
+    {
+      "path": "artifacts/day5_fold_scores.csv",
+      "bytes": 3514,
+      "sha256": "bf1bd5ffeb26dbd66d062c28c48889ee6cfe4eb399597120022512db107fab6a",
+      "used_by": "Evidence: AP per fold"
+    },
+    {
+      "path": "artifacts/day5_threshold_sweep.csv",
+      "bytes": 419731,
+      "sha256": "fcf730b90c911cdb544cf1ef641d3fe7beb0619bc4608b60fcf36fc19f3a658a",
+      "used_by": "Evidence: loss vs threshold"
+    },
+    {
+      "path": "artifacts/day5_period_capacity.csv",
+      "bytes": 190,
+      "sha256": "676042bf393d9b1b8445299cb64d0e2baf63ac590522de95ef9a29e156b58458",
+      "used_by": "Evidence: capacity per period"
+    },
+    {
+      "path": "artifacts/day5_cost_sensitivity.csv",
+      "bytes": 155,
+      "sha256": "b2bb7cb7742af9d591118afbd034efdf2e64142653e4dd28f949fd5bcf8e48da",
+      "used_by": "Evidence: FN cost 8 / 10 / 12"
+    },
+    {
+      "path": "artifacts/day5_region_audit.csv",
+      "bytes": 421,
+      "sha256": "2655dae92f27b25f4a579ffaeae7b95d9881a1ffb0483873cc5b6de8c41576ab",
+      "used_by": "Evidence: false positive rate and recall by region"
+    },
+    {
+      "path": "artifacts/day5_calibration_fit_bins.csv",
+      "bytes": 1162,
+      "sha256": "b39fcdb61c44dc85e22338716c53ef11291ef10f8a9f9114e9f46234d6a54de0",
+      "used_by": "Evidence: reliability bins, raw vs sigmoid"
+    },
+    {
+      "path": "artifacts/day5_oof_predictions.csv",
+      "bytes": 372506,
+      "sha256": "beebb62d3fdf86dac3578b2f2707e5fac303922a741f97c3e5179b3e63a54cde",
+      "used_by": "Evidence: ROC and precision-recall from labelled OOF rows"
+    },
+    {
+      "path": "reports/MODEL_CARD.md",
+      "bytes": 7594,
+      "sha256": "7328d3c28429876b8f88dde2b42c29effb91a439720a5f3bd0ec7cf6650fffb4",
+      "used_by": "Files page: model card download"
+    }
+  ]
+}

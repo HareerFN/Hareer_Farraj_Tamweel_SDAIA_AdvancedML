@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tamweel risk desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Sofia+Sans+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand"><b>Tamweel</b><span>Credit risk desk · educational, synthetic data</span></div>
+  <nav aria-label="Pages">
+    <a href="#apply" data-v="apply">Applicant</a>
+    <a href="#desk" data-v="desk">Lender desk</a>
+    <a href="#evidence" data-v="evidence">Model evidence</a>
+    <a href="#files" data-v="files">Files</a>
+  </nav>
+</div></header>
+<div class="strip" aria-live="polite"><div class="wrap" id="integrity"><span class="note">Loading and verifying the notebook output files…</span></div></div>
+
+<main>
+<p class="loading" id="loading">Reading the files listed in files_manifest.json and re-computing every prediction…</p>
+
+<section id="v-apply" class="band hidden"><div class="wrap grid-form">
+  <div>
+    <h1>Apply to Tamweel</h1>
+    <p class="lead">The form is generated from <code>data_contract.json</code>: the same 22 predictors, units and ranges the model was trained on. Fields known only after the decision are never asked for.</p>
+    <div class="srcs"><a class="src" href="#files">data/data_contract.json</a></div>
+    <form id="form" class="card" novalidate style="margin-top:16px">
+      <div id="fieldsets"></div>
+      <div class="computed"><span>Debt-to-income <code>dti</code> = (obligations + amount ÷ tenor) ÷ income, rounded to 4 places</span><b id="dtiOut">—</b></div>
+      <p id="err" class="note" style="color:var(--coral)" role="alert"></p>
+      <button class="go" type="submit">Submit application</button>
+    </form>
+  </div>
+  <div class="card" id="receipt" aria-live="polite"></div>
+</div></section>
+
+<section id="v-desk" class="band hidden"><div class="wrap">
+  <h1>Tamweel decision desk</h1>
+  <p class="lead" id="deskLead"></p>
+  <div class="srcs"><a class="src" href="#files">final_model/model.json</a><a class="src" href="#files">final_policy.json</a><a class="src" href="#files">tamweel_challenge.csv</a><a class="src" href="#files">submission.csv</a></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="card panel" data-view="graph" id="histPanel"></div>
+  <div class="grid2" style="margin-top:24px">
+    <div>
+      <h3 style="margin-bottom:10px">Batch ranked by calibrated probability</h3>
+      <div class="tools" id="filters"></div>
+      <input type="search" id="q" placeholder="Find an application ID" aria-label="Find application ID">
+      <div class="qwrap" style="margin-top:10px"><table class="stack"><thead><tr><th>Application</th><th class="n">Probability</th><th>Decision</th></tr></thead><tbody id="queue"></tbody></table></div>
+      <p class="note" id="qnote"></p><button id="more" type="button">Show 60 more</button>
+    </div>
+    <div class="card" id="trace" aria-live="polite"></div>
+  </div>
+</div></section>
+
+<section id="v-evidence" class="band hidden"><div class="wrap" id="evidence"></div></section>
+
+<section id="v-files" class="band hidden"><div class="wrap">
+  <h1>Every file the site reads</h1>
+  <p class="lead">Copied byte-for-byte from the Day 5 bundle by <code>scripts/build_site.py</code>. Your browser re-computes each sha256 on load and compares it with <code>files_manifest.json</code>.</p>
+  <div class="card scroll" style="margin-top:16px"><table class="stack"><thead><tr><th>File</th><th>Used for</th><th class="n">Size</th><th>sha256 (first 12)</th><th>In your browser</th></tr></thead><tbody id="filesBody"></tbody></table></div>
+  <div class="card" style="margin-top:16px"><h3>Rebuild and re-check</h3><pre class="eq" style="white-space:pre">python scripts/build_site.py --bundle /content/tamweel --site docs
+node tests/parity_test.js</pre><p class="note">The build stops and writes nothing if <code>model.json</code> fails its manifest, if any probability differs from <code>submission.csv</code> by more than 1e-12, or if any of the 2,500 decisions differ.</p></div>
+</div></section>
+</main>
+
+<footer class="band"><div class="wrap">Educational project on fictional, synthetic Tamweel Lite data. A flag means “send for review”, not “reject”. Not for real credit decisions (see <code>reports/MODEL_CARD.md</code>). Tamweel is a fictional lender.</div></footer>
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

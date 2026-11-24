@@ -1,37 +1,43 @@
-```mermaid
-%%{init: {'theme':'base', 'themeVariables': {'fontFamily':'Segoe UI, Tahoma, sans-serif', 'fontSize':'15px', 'lineColor':'#64748B'}}}%%
-flowchart TD
-    ALL["<b>All applications</b><br/>كل الطلبات<br/>10,000 · default 7.89%"]
+# Tamweel risk desk (website branch)
 
-    subgraph DEVBOX["Development side · جانب التطوير"]
-        DEV["<b>development</b><br/>8,000 · 7.89%"]
-        FIT["<b>inner_fit</b><br/>التعلّم<br/>6,000 · 7.88%"]
-        STOP["<b>inner_stop</b><br/>اختيار عدد الأشجار<br/>2,000 · 7.90%"]
-    end
+A website built on the Day 5 outputs of the Tamweel project. It does **not** train or tune anything. It reads the notebook's output files and reproduces their results in the browser.
 
-    subgraph EVALBOX["Protected evaluation · تقييم محمي"]
-        CMP["<b>comparison</b><br/>الامتحان النهائي<br/>2,000 · 7.90%"]
-    end
+- **Applicant**: a form generated from `data/data_contract.json`. The request is scored with `final_model/model.json` and joins the challenge batch. The applicant sees only the status.
+- **Lender desk** (Tamweel, a fictional lender): the 2,500 challenge requests, ranked, with a 6-step trace for each decision.
+- **Model evidence**: 8 panels read from the Day 5 CSV/JSON files, each with a graph/table toggle and the source file named.
+- **Files**: every file the site reads, its sha256, and a live check in your browser.
 
-    ALL --> DEV
-    ALL --> CMP
-    DEV --> FIT
-    DEV --> STOP
-    FIT -. "fit trees" .-> STOP
-    STOP -. "selected_trees → refit" .-> CMP
+## How the site stays tied to the notebook
 
-    classDef total fill:#1E3A5F,stroke:#1E3A5F,color:#FFFFFF
-    classDef dev   fill:#0F766E,stroke:#0F766E,color:#FFFFFF
-    classDef fit   fill:#CCFBF1,stroke:#0F766E,color:#134E4A,stroke-width:2px
-    classDef stop  fill:#FEF3C7,stroke:#B45309,color:#78350F,stroke-width:2px
-    classDef eval  fill:#FFE4E6,stroke:#BE123C,color:#881337,stroke-width:3px
+| Check | Where |
+|---|---|
+| `model.json` sha256 equals `model_manifest.json` | build script + browser |
+| All 2,500 probabilities equal `submission.csv` (max diff ≤ 1e-12) | build script + browser + `tests/parity_test.js` |
+| All 2,500 decisions (300 flags) equal `submission.csv` | build script + browser + test |
+| Calibrated threshold = calibration(raw OOF threshold) | build script + browser |
+| OOF operating point (TP 84, FP 161) equals `final_metrics.json` | test |
+| Every copied file matches `files_manifest.json` | browser |
 
-    class ALL total
-    class DEV dev
-    class FIT fit
-    class STOP stop
-    class CMP eval
+The build stops and writes nothing if any check fails.
 
-    style DEVBOX  fill:#F8FAFC,stroke:#94A3B8,stroke-dasharray:4 4,color:#334155
-    style EVALBOX fill:#FFF1F2,stroke:#BE123C,stroke-dasharray:4 4,color:#881337
+## Rebuild after re-running Day 5
+
+```bash
+python scripts/build_site.py --bundle /content/tamweel --site docs
+node tests/parity_test.js
 ```
+
+`--bundle` is the project folder that contains `artifacts/`, `data/`, `submission/` and `reports/`.
+
+## Folders
+
+```
+docs/            the website (GitHub Pages serves this folder)
+  data/          byte-for-byte copies of the Day 5 files + files_manifest.json
+  core.js        scoring and batch policy (same arithmetic as day5_final.py)
+  app.js         pages, trace, charts
+scripts/build_site.py
+tests/parity_test.js
+```
+
+Educational project on fictional, synthetic data. A flag means "send for review", not "reject". Not for real credit decisions.
