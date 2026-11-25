@@ -46,7 +46,7 @@
     "XGBoost": {
       "model": "XGBoost",
       "selected_trees": 61,
-      "selection_seconds": 0.24459949100003087,
+      "selection_seconds": 0.26809318699997675,
       "rounds_evaluated": 91,
       "curves": {
         "fit": [
@@ -265,7 +265,7 @@
     "LightGBM": {
       "model": "LightGBM",
       "selected_trees": 41,
-      "selection_seconds": 0.38793791700004476,
+      "selection_seconds": 0.17120618400008425,
       "rounds_evaluated": 71,
       "curves": {
         "fit": [
@@ -443,6 +443,6 @@
     }
   },
   "ap_definition": "sklearn average_precision_score, non-interpolated",
-  "elapsed_seconds": 257.71,
-  "peak_process_memory_mib": 452.7
+  "elapsed_seconds": 21.94,
+  "peak_process_memory_mib": 453.8
 }
