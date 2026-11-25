@@ -188,7 +188,7 @@ flowchart LR
 ## 6. Stage answers
 
 > [!TIP]
-> Each stage shows the question, my video answer, the date, the key numbers from my own run, the plots with a short reading, and a link to open the notebook in Colab. Extra plots sit under **More plots** in each stage.
+> Each stage shows the question, my answer (with a video for Stages 1 and 2), the date, the key numbers from my own run, the plots with a short reading, and a link to open the notebook in Colab. Extra plots sit under **More plots** in each stage.
 
 ---
 
@@ -200,8 +200,10 @@ flowchart LR
 > **Stage question**
 > Which model did you select initially, and what is the strongest result supporting your choice?
 
-**Video answer:** VIDEO_LINK_STAGE_1
+**Answer.** I chose **Logistic Regression**. It had the highest ROC-AUC (0.821) and trained about 10 times faster (0.11 s vs about 1.1 s). XGBoost had a slightly higher AP (0.334 vs 0.326), but the difference is tiny and the error bars overlap, so the simpler model is the better start.
 
+**Video answer:**
+https://drive.google.com/file/d/1zc8Y3r0P0qkVM690aHK4UW3wiLAWGt2f/view?usp=drive_link
 <details>
 <summary><b>Key results from my run</b></summary>
 
@@ -253,9 +255,15 @@ Random stratified split: 8,000 development rows (6,000 `inner_fit` + 2,000 `inne
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/notebooks/02_validation_tuning.ipynb)
 
 > **Stage question**
-> *What leakage risk did you identify, and how did the validation design prevent it?.*
+> *What leakage risk did you identify, and how did the validation design prevent it?*
 
-**Video answer:** VIDEO_LINK_STAGE_2
+**Answer.** Two fields, `days_past_due_60` and `collection_calls`, are only known **after** the loan starts, so they reveal the outcome. With them, AP was a fake 0.999. I removed them, then used **forward-in-time folds** (train on the past, validate on the future), kept only rows whose 90-day label was already known, and removed shared customers between train and validation. The honest AP is **0.315**.
+
+**Video answer:**
+
+https://drive.google.com/file/d/1Bi5sBwph5Ukj1ISe5jepu-Sc5eN5qTpi/view?usp=sharing
+
+
 
 <details open>
 <summary><b>Key results from my run</b></summary>
@@ -378,7 +386,7 @@ gantt
 > **Stage question**
 > *Why is a fixed threshold of 0.5 not always suitable for this review policy?*
 
-**Video answer:** VIDEO_LINK_STAGE_3
+**Answer.** Because 0.5 ignores the business rules. A missed default costs 10 times a false alarm, and the team can review only 12% of requests. At 0.5 the model flags **19.9%**, far above capacity. The threshold that respects the 12% limit in every period is **0.658**: it flags 10.4% and catches 40.9% of defaulters.
 
 <details>
 <summary><b>Key results from my run</b></summary>
@@ -435,7 +443,7 @@ Weighted strategy, declared before comparison. 5,039 out-of-fold rows. $\text{Lo
 > **Stage question**
 > *Which feature was most important in your explanation, and why does that not prove causality?*
 
-**Video answer:** VIDEO_LINK_STAGE_4
+**Answer.** `bureau_score` was the most important feature: shuffling it dropped AP by 0.127, and a low score pushed risk up the most in SHAP. This does **not** prove causality, because the model only learns patterns in the data. A low score may come with other hidden factors, and changing someone's score would not necessarily change whether they default.
 
 <details>
 <summary><b>Key results from my run</b></summary>
@@ -515,7 +523,7 @@ LightGBM with time-ordered roles: fit 2,516 · calibration 584 · policy 589 · 
 > **Stage question**
 > *Why did you choose the single model or the ensemble for the final project?*
 
-**Video answer:** VIDEO_LINK_STAGE_5
+**Answer.** I kept the **single Logistic Regression**. It had the best mean AP (0.392), and the best ensemble (Weighted, 0.389) was not better. The three models make almost the same errors (correlation 0.98 to 0.99), so combining them adds complexity without any gain.
 
 <details>
 <summary><b>Key results from my run</b></summary>
