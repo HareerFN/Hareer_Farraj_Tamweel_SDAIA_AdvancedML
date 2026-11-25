@@ -218,8 +218,7 @@ Random stratified split: 8,000 development rows (6,000 `inner_fit` + 2,000 `inne
 - Random baseline for AP = prevalence, **0.079**.
 - 1,226 customers appear in both development and comparison, tested in Stage 2.
 
-<p align="center"><img src="<img width="1693" height="517" alt="day1_model_choice" src="https://github.com/user-attachments/assets/40f77f2c-3152-493f-8b37-ccea495bfd7e" />
-" width="90%" alt="Stage 1 model choice"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/40f77f2c-3152-493f-8b37-ccea495bfd7e" width="90%" alt="Stage 1 model choice"></p>
 <p align="center"><sub><b>Figure 1.1</b> · ROC-AUC, AP (with 95% bootstrap ranges) and training time for the three models on 2,000 comparison rows.</sub></p>
 
 > **Reading.** The error bars of all three models overlap heavily: the AP ranges span about 0.25 to 0.40, far wider than the 0.008 gap between XGBoost and Logistic Regression. Training time is the only clear difference, with LR about 10 times faster.
@@ -348,8 +347,7 @@ gantt
 > **Reading.** The leaky control sits at almost 1.0 on both metrics, which is impossible for real credit data. Once the two fields are dropped, the three clean schemes overlap within their spread (AP 0.311 to 0.315).
 > **Conclusion.** Leakage, not the split, was the large error (+0.688 AP). The time and customer protections cost almost nothing here, but they are what make the 0.315 trustworthy.
 
-<p align="center"><img src="<img width="1093" height="445" alt="day2_fold_sizes" src="https://github.com/user-attachments/assets/cddb073f-0f69-4d1f-9639-e33d0acd8781" />
-" width="80%" alt="Stage 2 fold sizes"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/cddb073f-0f69-4d1f-9639-e33d0acd8781" width="80%" alt="Stage 2 fold sizes"></p>
 <p align="center"><sub><b>Figure 2.2</b> · Training vs validation rows per forward fold after maturity and customer purges.</sub></p>
 
 > **Reading.** Training grows over time (3,223 to 5,731) while each validation window stays about 1,650 rows with about 110 to 140 defaults.
@@ -360,8 +358,7 @@ gantt
 
 <br>
 
-<p align="center"><img src="<img width="1093" height="433" alt="day2_search" src="https://github.com/user-attachments/assets/a8015f8d-54dd-4d74-b775-dfa7f6fcc6b0" />
-" width="80%" alt="Stage 2 Optuna search"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/a8015f8d-54dd-4d74-b775-dfa7f6fcc6b0" width="80%" alt="Stage 2 Optuna search"></p>
 <p align="center"><sub><b>Figure 2.3</b> · Mean AP of each of the 8 Optuna trials on the reserved tuning pool (search score, not outer performance).</sub></p>
 
 > **Reading.** All 8 trials land between 0.309 and 0.333, a flat line. The best (trial 2) is only 0.025 above the worst, and the smallest internal fold has just 15 defaults.
@@ -407,8 +404,7 @@ Weighted strategy, declared before comparison. 5,039 out-of-fold rows. $\text{Lo
 > **Reading.** Loss is lowest near 0.45, but at that point about 23% of requests are flagged, almost double the capacity. The flag curve for the busiest period crosses 12% only at about 0.66.
 > **Conclusion.** Capacity, not cost, sets the threshold. 0.658 is the cheapest rule the review team can actually handle.
 
-<p align="center"><img src="<img width="1333" height="493" alt="day3_capacity_regions" src="https://github.com/user-attachments/assets/94dc9212-a88a-42e5-9fca-eaeae96542cf" />
-" width="85%" alt="Stage 3 capacity and regions"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/94dc9212-a88a-42e5-9fca-eaeae96542cf" width="85%" alt="Stage 3 capacity and regions"></p>
 <p align="center"><sub><b>Figure 3.2</b> · Left: flags vs capacity per period. Right: false positive rate by region.</sub></p>
 
 > **Reading.** Every period stays under its cap, with period 3 nearly full (206 of 207). Regional FPRs range from 7.6% to 8.3%.
@@ -419,8 +415,7 @@ Weighted strategy, declared before comparison. 5,039 out-of-fold rows. $\text{Lo
 
 <br>
 
-<p align="center"><img src="<img width="1393" height="529" alt="day3_roc_pr" src="https://github.com/user-attachments/assets/c5bfe505-3dcd-4485-993c-c33a8916ccd8" />
-" width="90%" alt="Stage 3 ROC and PR by imbalance strategy"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/c5bfe505-3dcd-4485-993c-c33a8916ccd8" width="90%" alt="Stage 3 ROC and PR by imbalance strategy"></p>
 <p align="center"><sub><b>Figure 3.3</b> · Pooled out-of-fold ROC and PR curves on 5,039 requests for unweighted, weighted and oversampled training.</sub></p>
 
 > **Reading.** The three curves are practically identical (ROC-AUC 0.797 to 0.798, AP 0.309 to 0.316). Weighting and oversampling do not improve the ranking; they only shift scores upward.
@@ -482,8 +477,7 @@ LightGBM with time-ordered roles: fit 2,516 · calibration 584 · policy 589 · 
 
 <br>
 
-<p align="center"><img src="<img width="1573" height="613" alt="permutation_importance" src="https://github.com/user-attachments/assets/a6398b0d-38b6-44c0-897c-aa1fbb718e84" />
-" width="90%" alt="Stage 4 permutation importance"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/a6398b0d-38b6-44c0-897c-aa1fbb718e84" width="90%" alt="Stage 4 permutation importance"></p>
 <p align="center"><sub><b>Figure 4.3</b> · Left: training split gain. Right: drop in held-out AP when each feature is shuffled (whiskers = repeat SD).</sub></p>
 
 > **Reading.** Both views put `bureau_score` and `dti` far ahead. Gain also ranks `existing_obligations_sar` and `months_employed` high, but shuffling them barely changes held-out AP.
@@ -495,15 +489,13 @@ LightGBM with time-ordered roles: fit 2,516 · calibration 584 · policy 589 · 
 > **Reading.** `bureau_score = 497` adds +2.27 and `dti = 1.28` adds +1.20. Together these two make up almost all of the jump. Every other feature moves the score by 0.2 or less.
 > **Conclusion.** One applicant's flag can be explained in plain words: a very low credit score plus debts above income. This is the reason shown to the lender on the website.
 
-<p align="center"><img src="<img width="1453" height="493" alt="stability_summary" src="https://github.com/user-attachments/assets/57795d2c-ba65-49d6-8960-5fa10cc9c467" />
-" width="90%" alt="Stage 4 stability bootstrap"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/57795d2c-ba65-49d6-8960-5fa10cc9c467" width="90%" alt="Stage 4 stability bootstrap"></p>
 <p align="center"><sub><b>Figure 4.5</b> · 200 customer-cluster bootstrap replicates. Left: AP range raw vs sigmoid. Right: change in Brier after calibration.</sub></p>
 
 > **Reading.** AP spans 0.197 to 0.338 and is identical for raw and sigmoid. Every one of the 200 Brier changes is negative (about −0.057 to −0.035).
 > **Conclusion.** The calibration improvement is consistent, not luck. The wide AP range is a reminder that the evaluation has only 139 defaults.
 
-<p align="center"><img src="<img width="1453" height="553" alt="review_zone" src="https://github.com/user-attachments/assets/21d2dd37-5429-4deb-bf00-eca89bf8762f" />
-" width="90%" alt="Stage 4 review zone"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/21d2dd37-5429-4deb-bf00-eca89bf8762f" width="90%" alt="Stage 4 review zone"></p>
 <p align="center"><sub><b>Figure 4.6</b> · Left: sigmoid mapping from raw score to probability, with the 0.588 raw / 0.173 calibrated threshold. Right: flags vs the 12% limit per quarter.</sub></p>
 
 > **Reading.** 2024Q3 stays under its limit (97 of 100), but 2024Q4 goes over (109 vs 107). Adding near-threshold cases exceeds the limit in both quarters.
