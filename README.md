@@ -22,7 +22,7 @@
 >
 > | | Link |
 > |---|---|
-> | Live site | **https://USERNAME.github.io/REPO/** |
+> | Live site | **(https://hareerfn.github.io/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/#apply)** |
 > | Branch code | [`tree/website`](https://github.com/USERNAME/REPO/tree/website) |
 
 > [!WARNING]
