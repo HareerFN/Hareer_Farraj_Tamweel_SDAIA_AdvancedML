@@ -23,7 +23,7 @@
 >
 > | | Link |
 > |---|---|
-> | Live site | **[hareerfn.github.io/…/#apply](https://hareerfn.github.io/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/#apply)** |
+> | Live site | **[Open the Tamweel web app](https://hareerfn.github.io/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/#apply)** |
 > | Branch code | [`tree/website`](https://github.com/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/tree/website) |
 
 > [!WARNING]
@@ -75,7 +75,7 @@
 
 | Property | Value |
 |---|---|
-| Application dates | 2022-01-01 → 2024-12-31 |
+| Application dates | 2022-01-01 to 2024-12-31 |
 | Unit of a row | One financing **application** (`application_id`), not one customer |
 | Repeated customers | Yes. The same `customer_id` can apply more than once, so customers must be kept apart across train and validation (Stage 2) |
 | Columns excluded from predictors | `application_id`, `customer_id`, `application_date` (metadata), `default_within_90d` (target) |
@@ -91,28 +91,35 @@
 ## 3. Feature guide
 
 All 22 predictors are **known on the application date**. This is the same set the applicant fills in on the [website branch](https://github.com/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/tree/website).
-The *Risk direction* column shows what the Stage 4 SHAP analysis found (higher value → higher ⬆ or lower ⬇ predicted risk). It describes the synthetic data and the Stage 4 LightGBM model, not a causal rule.
+The *Risk direction* column shows what the Stage 4 SHAP analysis found. It describes the synthetic data and the Stage 4 LightGBM model, not a causal rule.
+
+<details>
+<summary><b>Show all 22 features</b> (click to expand)</summary>
+
+<br>
 
 | Group | Feature | Meaning | Risk direction |
 |---|---|---|---|
 | **Applicant** | `age` | Applicant age in years | — |
 | | `months_employed` | Months in current employment | weak |
 | | `residence_years` | Years at current address | — |
-| **Income & wealth** | `income_sar` | Monthly income (SAR) | ⬇ higher income, lower risk |
-| | `savings_balance_sar` | Savings balance (SAR) | ⬇ |
-| | `salary_transfer` | 1 = salary is transferred to the lender | ⬇ when 1 |
-| **Request** | `loan_amount_sar` | Requested financing amount (SAR) | ⬆ |
+| **Income & wealth** | `income_sar` | Monthly income (SAR) | higher value, lower risk |
+| | `savings_balance_sar` | Savings balance (SAR) | higher value, lower risk |
+| | `salary_transfer` | 1 = salary is transferred to the lender | lower risk when 1 |
+| **Request** | `loan_amount_sar` | Requested financing amount (SAR) | higher value, higher risk |
 | | `tenor_months` | Requested repayment period (months) | — |
-| **Obligations** | `dti` | Debt-to-income ratio **including the proposed installment** | ⬆ **2nd strongest driver** |
+| **Obligations** | `dti` | Debt-to-income ratio **including the proposed installment** | higher value, higher risk · **2nd strongest driver** |
 | | `existing_obligations_sar` | Current monthly obligations (SAR) | mixed (shares signal with `dti`) |
-| | `utilization_ratio` | Share of available credit already used | weak ⬆ |
+| | `utilization_ratio` | Share of available credit already used | weak, higher risk |
 | | `num_open_accounts` | Number of open credit accounts | — |
-| **Credit bureau** | `bureau_score` | Synthetic credit bureau score at application | ⬇ **strongest driver** (low score → high risk) |
+| **Credit bureau** | `bureau_score` | Synthetic credit bureau score at application | lower value, higher risk · **strongest driver** |
 | | `credit_history_months` | Length of credit history (months) | — |
-| | `prior_defaults` | Number of earlier defaults | ⬆ |
-| | `recent_inquiries` | Recent credit inquiries | ⬆ |
+| | `prior_defaults` | Number of earlier defaults | higher value, higher risk |
+| | `recent_inquiries` | Recent credit inquiries | higher value, higher risk |
 | **Region** (one-hot) | `region_central` · `region_western` · `region_eastern` | Applicant region; all 0 = *other* | small, audited for fairness |
 | **Employment** (one-hot) | `employment_government` · `employment_private` · `employment_self_employed` | Employer type | — |
+
+</details>
 
 > [!TIP]
 > Only `bureau_score` and `dti` clearly matter: removing them drops AP by 0.127 and 0.069. Every other feature drops it by 0.014 or less (Stage 4 permutation test).
@@ -181,7 +188,7 @@ flowchart LR
 ## 6. Stage answers
 
 > [!TIP]
-> Each stage shows the question, my video answer, the date, the key numbers from my own run, the plots with a short reading, and a link to open the notebook in Colab.
+> Each stage shows the question, my video answer, the date, the key numbers from my own run, the plots with a short reading, and a link to open the notebook in Colab. Extra plots sit under **More plots** in each stage.
 
 ---
 
@@ -214,14 +221,27 @@ Random stratified split: 8,000 development rows (6,000 `inner_fit` + 2,000 `inne
 <p align="center"><img src="artifacts/day1_model_choice.png" width="90%" alt="Stage 1 model choice"></p>
 <p align="center"><sub><b>Figure 1.1</b> · ROC-AUC, AP (with 95% bootstrap ranges) and training time for the three models on 2,000 comparison rows.</sub></p>
 
-> **Reading.** The error bars of all three models overlap heavily: the AP ranges span about 0.25 to 0.40, far wider than the 0.008 gap between XGBoost and Logistic Regression. Training time is the only clear difference, with LR about 10× faster.
+> **Reading.** The error bars of all three models overlap heavily: the AP ranges span about 0.25 to 0.40, far wider than the 0.008 gap between XGBoost and Logistic Regression. Training time is the only clear difference, with LR about 10 times faster.
 > **Conclusion.** No model is reliably better, so the simplest one, Logistic Regression, is the starting candidate.
 
 <p align="center"><img src="artifacts/day1_roc_pr.png" width="90%" alt="Stage 1 ROC and PR curves"></p>
 <p align="center"><sub><b>Figure 1.2</b> · ROC and precision–recall curves; dotted lines are random ranking and the 7.9% prevalence.</sub></p>
 
 > **Reading.** The ROC curves lie on top of each other. The PR curves show the real difficulty: precision falls below 0.4 once recall passes about 0.3.
-> **Conclusion.** About 4× better than random (AP ≈ 0.33 vs 0.079), but most flags will still be false alarms. That is why Stage 3 prices errors explicitly.
+> **Conclusion.** About 4 times better than random (AP about 0.33 vs 0.079), but most flags will still be false alarms. That is why Stage 3 prices errors explicitly.
+
+<details>
+<summary><b>More plots from Stage 1</b></summary>
+
+<br>
+
+<p align="center"><img src="artifacts/day1_learning_curves.png" width="90%" alt="Stage 1 learning curves"></p>
+<p align="center"><sub><b>Figure 1.3</b> · Log loss by boosting round on inner-fit (6,000) and inner-stop (2,000) rows; dotted line = selected tree count.</sub></p>
+
+> **Reading.** Training loss keeps falling, but inner-stop loss flattens after about 40 to 60 rounds and then rises slightly. XGBoost stops at 61 trees and LightGBM at 41.
+> **Conclusion.** Tree count was chosen on inner rows only, so the comparison set stayed untouched. More trees would only memorise the training data.
+
+</details>
 
 </details>
 
@@ -248,11 +268,11 @@ A field is only usable if it exists **at the decision moment**. Two columns in t
 
 ```mermaid
 flowchart LR
-    A[" Application date<br/><b>22 predictors known</b>"] --> B{"⚖️ DECISION<br/>flag / no flag"}
+    A["Application date<br/><b>22 predictors known</b>"] --> B{"DECISION<br/>flag / no flag"}
     B --> C["Loan starts"]
-    C --> D[" days_past_due_60<br/>late payment"]
-    D --> E[" collection_calls<br/>collection activity"]
-    E --> F[" default_within_90d<br/>target, +90 days"]
+    C --> D["LEAK: days_past_due_60<br/>late payment"]
+    D --> E["LEAK: collection_calls<br/>collection activity"]
+    E --> F["TARGET: default_within_90d<br/>+90 days"]
 
     classDef ok fill:#CCFBF1,stroke:#0F766E,color:#134E4A
     classDef gate fill:#FEF3C7,stroke:#B45309,color:#78350F
@@ -272,19 +292,19 @@ flowchart LR
 
 #### 2.2 How much leakage lies
 
-| Validation scheme | Leaky fields? | Same customer in train & validation? | Future rows in training? | Rows | ROC-AUC | AP |
-|---|---|---|---|---|---|---|
-|  Leaky random (unsafe) |  kept | yes | yes | 10,000 | 0.9999 | **0.999** |
-|  Clean random (unsafe) | ❌ dropped | yes | yes | 10,000 | 0.801 | 0.311 |
-|  **Honest, fixed 80 trees** | ❌ dropped | **no** | **no** | **5,039** | **0.798** | **0.315** |
-|  Honest, tuned | ❌ dropped | no | no | 5,039 | 0.786 | 0.313 |
+| Validation scheme | Leaky fields | Same customer in train and validation | Future rows in training | Rows | ROC-AUC | AP | Verdict |
+|---|---|---|---|---|---|---|---|
+| Leaky random | kept | yes | yes | 10,000 | 0.9999 | **0.999** | unsafe, fake |
+| Clean random | dropped | yes | yes | 10,000 | 0.801 | 0.311 | unsafe |
+| **Honest, fixed 80 trees** | dropped | **no** | **no** | **5,039** | **0.798** | **0.315** | **trusted** |
+| Honest, tuned | dropped | no | no | 5,039 | 0.786 | 0.313 | trusted |
 
 ```text
 AP   0.0        0.2        0.4        0.6        0.8        1.0
      |----------|----------|----------|----------|----------|
-Leaky random    ██████████████████████████████████████████████████ 0.999  ← fake
+Leaky random    ██████████████████████████████████████████████████ 0.999  <- fake
 Clean random    ███████████████▌                                   0.311
-Honest fixed    ███████████████▊                                   0.315  ← trusted
+Honest fixed    ███████████████▊                                   0.315  <- trusted
 Honest tuned    ███████████████▋                                   0.313
                                  Leakage inflation: +0.688 AP
 ```
@@ -312,9 +332,9 @@ gantt
 
 | Fold | Validation window | Train rows | Validation rows | Immature rows removed | Customer-overlap rows removed | Shared customers |
 |---|---|---|---|---|---|---|
-| 1 | 2023-07 → 2023-12 | 3,223 | 1,632 | 826 | 912 | **0** |
-| 2 | 2024-01 → 2024-06 | 4,460 | 1,674 | 785 | 1,348 | **0** |
-| 3 | 2024-07 → 2024-12 | 5,731 | 1,733 | 861 | 1,675 | **0** |
+| 1 | 2023-07 to 2023-12 | 3,223 | 1,632 | 826 | 912 | **0** |
+| 2 | 2024-01 to 2024-06 | 4,460 | 1,674 | 785 | 1,348 | **0** |
+| 3 | 2024-07 to 2024-12 | 5,731 | 1,733 | 861 | 1,675 | **0** |
 
 - **Label maturity:** a training row is used only if its 90-day outcome was known before validation starts.
 - **Customer purge:** customers who appear in the validation window are removed from training.
@@ -330,8 +350,21 @@ gantt
 <p align="center"><img src="artifacts/day2_fold_sizes.png" width="80%" alt="Stage 2 fold sizes"></p>
 <p align="center"><sub><b>Figure 2.2</b> · Training vs validation rows per forward fold after maturity and customer purges.</sub></p>
 
-> **Reading.** Training grows over time (3,223 → 5,731) while each validation window stays about 1,650 rows with about 110 to 140 defaults.
+> **Reading.** Training grows over time (3,223 to 5,731) while each validation window stays about 1,650 rows with about 110 to 140 defaults.
 > **Conclusion.** Each fold judges the model on only about 130 defaults, so differences of about 0.03 AP are within noise.
+
+<details>
+<summary><b>More plots from Stage 2</b></summary>
+
+<br>
+
+<p align="center"><img src="artifacts/day2_search.png" width="80%" alt="Stage 2 Optuna search"></p>
+<p align="center"><sub><b>Figure 2.3</b> · Mean AP of each of the 8 Optuna trials on the reserved tuning pool (search score, not outer performance).</sub></p>
+
+> **Reading.** All 8 trials land between 0.309 and 0.333, a flat line. The best (trial 2) is only 0.025 above the worst, and the smallest internal fold has just 15 defaults.
+> **Conclusion.** The search found no clearly better setting, which explains why the tuned model did not beat the fixed 80-tree model on honest folds.
+
+</details>
 
 </details>
 
@@ -376,6 +409,19 @@ Weighted strategy, declared before comparison. 5,039 out-of-fold rows. $\text{Lo
 
 > **Reading.** Every period stays under its cap, with period 3 nearly full (206 of 207). Regional FPRs range from 7.6% to 8.3%.
 > **Conclusion.** The rule is feasible with little headroom, and no region is visibly over-flagged at this stage.
+
+<details>
+<summary><b>More plots from Stage 3</b></summary>
+
+<br>
+
+<p align="center"><img src="artifacts/day3_roc_pr.png" width="90%" alt="Stage 3 ROC and PR by imbalance strategy"></p>
+<p align="center"><sub><b>Figure 3.3</b> · Pooled out-of-fold ROC and PR curves on 5,039 requests for unweighted, weighted and oversampled training.</sub></p>
+
+> **Reading.** The three curves are practically identical (ROC-AUC 0.797 to 0.798, AP 0.309 to 0.316). Weighting and oversampling do not improve the ranking; they only shift scores upward.
+> **Conclusion.** Imbalance handling changes *where* the threshold must be, not *how well* the model ranks. The decision comes from the threshold, not the resampling.
+
+</details>
 
 </details>
 
@@ -425,6 +471,37 @@ LightGBM with time-ordered roles: fit 2,516 · calibration 584 · policy 589 · 
 
 > **Reading.** Raw scores sit far below the diagonal. A raw score of 0.65 corresponds to only about 16% observed defaults, because of class weighting. The sigmoid curve follows the diagonal.
 > **Conclusion.** Raw weighted scores are rankings, not probabilities. Calibration cut ECE from 0.147 to 0.022 without changing AP.
+
+<details>
+<summary><b>More plots from Stage 4</b></summary>
+
+<br>
+
+<p align="center"><img src="artifacts/permutation_importance.png" width="90%" alt="Stage 4 permutation importance"></p>
+<p align="center"><sub><b>Figure 4.3</b> · Left: training split gain. Right: drop in held-out AP when each feature is shuffled (whiskers = repeat SD).</sub></p>
+
+> **Reading.** Both views put `bureau_score` and `dti` far ahead. Gain also ranks `existing_obligations_sar` and `months_employed` high, but shuffling them barely changes held-out AP.
+> **Conclusion.** Training gain overstates features that share signal with `dti`. Held-out AP drop is the more honest measure: two features carry the model.
+
+<p align="center"><img src="artifacts/shap_waterfall.png" width="80%" alt="Stage 4 SHAP waterfall for TR-009585"></p>
+<p align="center"><sub><b>Figure 4.4</b> · SHAP waterfall for the highest-risk case <code>TR-009585</code>, from the average log-odds (−1.79) to this applicant (2.23).</sub></p>
+
+> **Reading.** `bureau_score = 497` adds +2.27 and `dti = 1.28` adds +1.20. Together these two make up almost all of the jump. Every other feature moves the score by 0.2 or less.
+> **Conclusion.** One applicant's flag can be explained in plain words: a very low credit score plus debts above income. This is the reason shown to the lender on the website.
+
+<p align="center"><img src="artifacts/stability_summary.png" width="90%" alt="Stage 4 stability bootstrap"></p>
+<p align="center"><sub><b>Figure 4.5</b> · 200 customer-cluster bootstrap replicates. Left: AP range raw vs sigmoid. Right: change in Brier after calibration.</sub></p>
+
+> **Reading.** AP spans 0.197 to 0.338 and is identical for raw and sigmoid. Every one of the 200 Brier changes is negative (about −0.057 to −0.035).
+> **Conclusion.** The calibration improvement is consistent, not luck. The wide AP range is a reminder that the evaluation has only 139 defaults.
+
+<p align="center"><img src="artifacts/review_zone.png" width="90%" alt="Stage 4 review zone"></p>
+<p align="center"><sub><b>Figure 4.6</b> · Left: sigmoid mapping from raw score to probability, with the 0.588 raw / 0.173 calibrated threshold. Right: flags vs the 12% limit per quarter.</sub></p>
+
+> **Reading.** 2024Q3 stays under its limit (97 of 100), but 2024Q4 goes over (109 vs 107). Adding near-threshold cases exceeds the limit in both quarters.
+> **Conclusion.** A threshold fixed on earlier data can break capacity later, so the status is `CAPACITY_REVIEW_REQUIRED`. Stage 5 fixes this with a hard batch cap.
+
+</details>
 
 </details>
 
@@ -494,6 +571,25 @@ Gate: AP lift above one fold SD, Brier increase at most 0.005, ECE increase at m
 > **Reading.** Most requests score below 0.1. 330 pass 0.1223, and the cap keeps the 300 highest (boundary score 0.1299).
 > **Conclusion.** The frozen policy transfers to new data without retuning, and the cap actually binds (30 removed).
 
+<details>
+<summary><b>More plots from Stage 5</b></summary>
+
+<br>
+
+<p align="center"><img src="artifacts/day5_diversity.png" width="90%" alt="Stage 5 model diversity"></p>
+<p align="center"><sub><b>Figure 5.4</b> · Pearson correlation between the three models on the same 2,155 OOF requests. Left: probabilities. Right: errors (p − y).</sub></p>
+
+> **Reading.** Probabilities correlate 0.88 to 0.96, and errors correlate 0.98 to 0.99. The three models make almost the same mistakes on the same applicants.
+> **Conclusion.** Ensembles gain from models that disagree. With errors this alike there is nothing to average out, which explains why no ensemble passed the gate.
+
+<p align="center"><img src="artifacts/day5_calibration_fit.png" width="90%" alt="Stage 5 calibration fit diagnostic"></p>
+<p align="center"><sub><b>Figure 5.5</b> · Reliability on the 836 calibration rows, raw vs sigmoid; labels = rows per bin.</sub></p>
+
+> **Reading.** Raw Logistic Regression already follows the diagonal where most rows are (656 below 0.1, 102 near 0.15). Above 0.5 the bins hold 1 to 6 rows, so their swings are noise.
+> **Conclusion.** Logistic Regression was already well calibrated, so the sigmoid adds little. It is kept as a frozen, consistent step, and this check is on its own fitting rows, not a test.
+
+</details>
+
 </details>
 
 ---
@@ -516,7 +612,7 @@ Hareer_Farraj_Tamweel_SDAIA_AdvancedML/
 │   ├── final_policy.json                 threshold, cost, capacity, batch audit
 │   ├── ensemble_comparison.csv
 │   ├── day5_*.csv / day5_*.json          Stage 5 evidence tables
-│   └── *.png                             plots from every stage
+│   └── *.png                             20 plots from every stage
 ├── data/
 │   ├── data_contract.json                features, ranges, leakage fields
 │   ├── tamweel_train.csv
@@ -526,7 +622,7 @@ Hareer_Farraj_Tamweel_SDAIA_AdvancedML/
 │   └── ENSEMBLE_DECISION.md
 ├── scripts/
 │   ├── day2_validation.py · day3_decision.py · day4_trust.py · day5_final.py
-│   ├── inference.py                      predict(frame) → application_id, probability
+│   ├── inference.py                      predict(frame) -> application_id, probability
 │   ├── replay_final.py                   re-predict from the saved model
 │   └── rebuild_final.py                  retrain the final model
 ├── submission/
@@ -538,8 +634,6 @@ Hareer_Farraj_Tamweel_SDAIA_AdvancedML/
 └── README.md
 ```
 
-> [!NOTE]
-> File names keep the original `dayN_` prefix produced by the course scripts; *Stage N* in this README = *Day N* in file names.
 
 ---
 
@@ -593,7 +687,7 @@ Apply the policy only after the full batch is assembled: flag when `probability 
 | **Program** | **Advanced ML Application** |
 | **Provider** | SDAIA Academy (Saudi Data & AI Authority) |
 | **Training program repository** | [github.com/SDAIAAcademy](https://github.com/SDAIAAcademy) |
-| **Author** | Hareer Farraj |
+| **Author** | Hareer Farraj - 7reerfn@gmail.com |
 
 <div align="center">
 <sub>Built as part of the SDAIA Academy <b>Advanced ML Application</b> program · synthetic data · educational use only</sub>
