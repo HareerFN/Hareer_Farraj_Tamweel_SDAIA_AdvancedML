@@ -253,7 +253,7 @@ Random stratified split: 8,000 development rows (6,000 `inner_fit` + 2,000 `inne
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/notebooks/02_validation_tuning.ipynb)
 
 > **Stage question**
-> *Paste the Stage 2 question here.*
+> *What leakage risk did you identify, and how did the validation design prevent it?.*
 
 **Video answer:** VIDEO_LINK_STAGE_2
 
@@ -376,7 +376,7 @@ gantt
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/notebooks/03_cost_sensitive_decision.ipynb)
 
 > **Stage question**
-> *Paste the Stage 3 question here.*
+> *Why is a fixed threshold of 0.5 not always suitable for this review policy?*
 
 **Video answer:** VIDEO_LINK_STAGE_3
 
@@ -433,7 +433,7 @@ Weighted strategy, declared before comparison. 5,039 out-of-fold rows. $\text{Lo
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/notebooks/04_explain_calibrate.ipynb)
 
 > **Stage question**
-> *Paste the Stage 4 question here.*
+> *Which feature was most important in your explanation, and why does that not prove causality?*
 
 **Video answer:** VIDEO_LINK_STAGE_4
 
@@ -513,7 +513,7 @@ LightGBM with time-ordered roles: fit 2,516 · calibration 584 · policy 589 · 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HareerFN/Hareer_Farraj_Tamweel_SDAIA_AdvancedML/blob/main/notebooks/05_final_model.ipynb)
 
 > **Stage question**
-> *Paste the Stage 5 question here.*
+> *Why did you choose the single model or the ensemble for the final project?*
 
 **Video answer:** VIDEO_LINK_STAGE_5
 
